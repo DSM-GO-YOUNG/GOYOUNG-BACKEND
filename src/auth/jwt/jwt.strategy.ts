@@ -16,9 +16,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: Payload) {
-        const user = await this.userRepository.findUserById(payload._id)
+        const user = await this.userRepository.findUserById(payload.id)
 
         if(user) return user;
-        else throw new NotFoundException('사용자 정보 찾을 수 없음');
+        else throw new NotFoundException('User Not Found');
     }
 }
