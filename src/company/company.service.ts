@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CompanyRepository } from './company.repository';
 import { RegisterCompanyDTO, CreateCompanyDTO } from './dto/company.dto';
 import { Company } from './schema/company.schema';
@@ -11,6 +11,8 @@ export class CompanyService {
     ) {}
 
     public async registerCompany(createCompanyDto: CreateCompanyDTO, user: User): Promise<Company> {
+        if(user.host == false) throw new ForbiddenException('Not Host');
+        
         const registerCompanyDto: RegisterCompanyDTO = { ...createCompanyDto, user_id: user._id };
         
         return await this.companyRepository.registerCompany(registerCompanyDto);
