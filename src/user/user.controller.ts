@@ -8,17 +8,11 @@ export class UserController {
         private readonly userService: UserService
     ) {}
 
-    @Post()
+    @Post('/')
     async signUp(
         @Body() createUserDto: CreateUserDTO
     ) {
-        return await this.userService.signUp(createUserDto);
-    }
-
-    @Post('/login')
-    async login(
-        @Body() loginUserDto: LoginUserDTO
-    ): Promise<UserResDTO> {
-        return this.userService.login(loginUserDto);
+        await this.userService.signUp(createUserDto);
+        return { statusCode: 201, message: 'Success Sign up' };
     }
 }
