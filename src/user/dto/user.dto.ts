@@ -1,9 +1,12 @@
-import { IsString } from "class-validator";
+import { IsBoolean, IsString } from "class-validator";
 import { ObjectId } from "mongoose";
 
 export class CreateUserDTO {
     @IsString()
     name: string;
+
+    @IsBoolean()
+    host: boolean;
 
     @IsString()
     password: string;
@@ -22,7 +25,7 @@ export class LoginUserDTO {
 
 export class UserResDTO {
     @IsString()
-    _id: ObjectId;
+    id: ObjectId;
 
     @IsString()
     access_token: string;
