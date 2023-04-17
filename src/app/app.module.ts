@@ -5,13 +5,17 @@ import { UserModule } from '../user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { CompanyModule } from 'src/company/company.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { JobOfferModule } from 'src/job-offer/job-offer.module';
+import { JobSeekModule } from 'src/job-seek/job-seek.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.DB_URL),
     AuthModule,
     UserModule,
-    CompanyModule
+    CompanyModule,
+    JobOfferModule,
+    JobSeekModule
   ],
 })
 export class AppModule {}
