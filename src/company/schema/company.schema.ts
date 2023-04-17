@@ -19,7 +19,7 @@ export class Company {
     address: string;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
-    user_id: User
+    user_id: User;
 }
 
 export const companySchema = SchemaFactory.createForClass(Company);
