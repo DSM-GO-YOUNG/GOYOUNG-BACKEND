@@ -18,6 +18,9 @@ export class Company {
     @Prop({ required: true })
     address: string;
 
+    @Prop({ required: true })
+    image: string;
+
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
     user_id: User;
 }
