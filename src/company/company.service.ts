@@ -21,4 +21,8 @@ export class CompanyService {
     public async findAllCompany(): Promise<Company[]> {
         return await this.companyRepository.findAllCompany();
     }
+
+    public async searchCompany(search_word: string): Promise<Company[]> {
+        return await this.companyRepository.searchCompany(search_word);
+    }
 }

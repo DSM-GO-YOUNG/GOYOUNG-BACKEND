@@ -23,4 +23,8 @@ export class CompanyRepository {
     async findAllCompany(): Promise<Company[]> {
         return await this.companyModel.find();
     }
+
+    async searchCompany(search_word: string): Promise<Company[]> {
+        return await this.companyModel.find({ name: { $regex: `.*${search_word}.*`, $options: 'i' } });
+    }
 }

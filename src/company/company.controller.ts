@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { RegisterCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -25,5 +25,13 @@ export class CompanyController {
     @Get('/')
     async findAllCompany() {
         return await this.companyService.findAllCompany();
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/search')
+    async searchCompany(
+        @Query('word') search_word: string
+    ) {
+        return await this.companyService.searchCompany(search_word);
     }
 }
