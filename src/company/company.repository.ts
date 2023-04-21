@@ -19,4 +19,8 @@ export class CompanyRepository {
     async findCompanyById(company_id: ObjectId): Promise<Company> {
         return await this.companyModel.findById(company_id);
     }
+
+    async findAllCompany(): Promise<Company[]> {
+        return await this.companyModel.find();
+    }
 }

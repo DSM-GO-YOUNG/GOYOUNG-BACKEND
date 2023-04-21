@@ -17,4 +17,8 @@ export class CompanyService {
         
         return await this.companyRepository.registerCompany(registerCompanyDto);
     }
+
+    public async findAllCompany(): Promise<Company[]> {
+        return await this.companyRepository.findAllCompany();
+    }
 }

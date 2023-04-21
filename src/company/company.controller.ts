@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { RegisterCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -19,5 +19,11 @@ export class CompanyController {
     ) {
         await this.companyService.registerCompany(registerCompanyDto, req.user as User);
         return { statusCode: 201, message: 'Success Register Company'}
+    }
+    
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/')
+    async findAllCompany() {
+        return await this.companyService.findAllCompany();
     }
 }
