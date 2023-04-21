@@ -17,6 +17,6 @@ export class CompanyRepository {
     }
 
     async findCompanyById(company_id: ObjectId): Promise<Company> {
-        return await this.companyModel.findOne({ company_id });
+        return await this.companyModel.findById(company_id);
     }
 }
