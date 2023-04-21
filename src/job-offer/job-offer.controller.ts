@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { JobOfferService } from './job-offer.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateJobOfferDTO } from './dto/job-offer.dto';
@@ -17,9 +17,8 @@ export class JobOfferController {
     async createJobOffer(
       @Body() createJobOfferDto: CreateJobOfferDTO,
       @Req() req: Request,
-      @Param() company_id: ObjectId
+      @Query('company') company: ObjectId
     ) {
-      await this.jobOfferService.createJobOffer(createJobOfferDto, req.user as User, company_id);
-
+      return await this.jobOfferService.createJobOffer(createJobOfferDto, req.user as User, company);
     }
 }
