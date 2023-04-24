@@ -6,6 +6,8 @@ import { CompanyModule } from 'src/company/company.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { JobOfferModule } from 'src/job-offer/job-offer.module';
 import { JobSeekModule } from 'src/job-seek/job-seek.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from 'src/shared/exception/exception.filter';
 
 @Module({
   imports: [
@@ -16,5 +18,6 @@ import { JobSeekModule } from 'src/job-seek/job-seek.module';
     JobOfferModule,
     JobSeekModule
   ],
+  providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter}]
 })
 export class AppModule {}

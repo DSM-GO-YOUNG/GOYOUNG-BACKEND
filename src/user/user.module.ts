@@ -4,8 +4,6 @@ import { UserService } from './user.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, userSchema } from './schema/user.schema';
 import { UserRepository } from './user.repository';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from "@nestjs/config";
 
 @Module({
     imports: [
@@ -17,8 +15,3 @@ import { ConfigService } from "@nestjs/config";
     providers: [UserService, UserRepository]
 })
 export class UserModule {}
-
-
-// secret: process.env.JWT_KEY,
-// signOptions: { expiresIn: process.env.TOKEN_TIME },
-// global: true
