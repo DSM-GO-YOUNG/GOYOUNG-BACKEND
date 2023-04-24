@@ -27,7 +27,7 @@ export class JobOfferService {
         const jobOffer = await this.jobOfferRepository.findJobOfferById(job_offer_id);
 
         if(!jobOffer) throw new NotFoundException('Not Found Job Offer');
-        else if(String(jobOffer.user_id) == String(user._id)) return await this.jobOfferRepository.updateJobOffer(reqJobOfferDto, job_offer_id);
+        else if(String(jobOffer.user_id) === String(user._id)) return await this.jobOfferRepository.updateJobOffer(reqJobOfferDto, job_offer_id);
         else throw ForbiddenException;
     }
 
@@ -35,7 +35,7 @@ export class JobOfferService {
         const jobOffer = await this.jobOfferRepository.findJobOfferById(job_offer_id);
     
         if(!jobOffer) throw new NotFoundException('Not Found Job Offer');
-        else if(String(jobOffer.user_id) == String(user._id)) return this.jobOfferRepository.deleteJobOffer(job_offer_id);
+        else if(String(jobOffer.user_id) === String(user._id)) return this.jobOfferRepository.deleteJobOffer(job_offer_id);
         else throw ForbiddenException;
     }
 }
