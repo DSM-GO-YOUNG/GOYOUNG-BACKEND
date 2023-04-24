@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { JobOffer } from "./schema/job-offer.schema";
-import { Model } from "mongoose";
-import { JobOfferInfoDTO } from "./dto/job-offer.dto";
+import { Model, ObjectId } from "mongoose";
+import { JobOfferInfoDTO, ReqJobOfferDTO } from "./dto/job-offer.dto";
+import { User } from "src/user/schema/user.schema";
 
 @Injectable()
 export class JobOfferRepository {
@@ -14,5 +15,18 @@ export class JobOfferRepository {
     async createJobOffer(JobOfferInfoDto: JobOfferInfoDTO): Promise<JobOffer> {
         const newJobOffer = new this.jobOfferModel(JobOfferInfoDto);
         return newJobOffer.save();
+    }
+
+    async updateJobOffer(reqJobOfferDto: ReqJobOfferDTO, job_offer_id: ObjectId): Promise<JobOffer> {
+        await this.jobOfferModel.findByIdAndUpdate({_id: job_offer_id}, reqJobOfferDto);
+        return this.jobOfferModel.findById(job_offer_id);
+    }
+
+    async deleteJobOffer(job_offer_id: ObjectId) {
+        return await this.jobOfferModel.deleteOne({ _id: job_offer_id });
+    }
+
+    async findJobOfferById(job_offer_id: ObjectId): Promise<JobOffer> {
+        return await this.jobOfferModel.findById(job_offer_id);
     }
 }
