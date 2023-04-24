@@ -11,7 +11,7 @@ export class JobOffer {
     company_id: Company;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
-    user_id: User;
+    user_id: ObjectId;
 
     @Prop({ required: true })
     content: string;
