@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApplicationService } from './application.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
@@ -18,7 +18,16 @@ export class ApplicationController {
     @Req() req: Request,
     @Param('job_offer_id') job_offer_id: ObjectId,
   ) {
-    console.log(content);
     return await this.applicationService.applyCompany(req.user as User, job_offer_id, content);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('/:job_offer_id/application')
+  async cancelApplyCompany(
+    @Req() req: Request,
+    @Param('job_offer_id') job_offer_id: ObjectId,
+  ) {
+    await this.applicationService.cancelApplyCompany(req.user as User, job_offer_id);
+    return { statusCode: 200, message: 'Success Cancel Apply' };
   }
 }

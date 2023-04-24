@@ -23,4 +23,11 @@ export class ApplicationRepository {
             job_offer_id: job_offer_id 
         });
     }
+
+    async cancelApplyCompany(user: User, job_offer_id: ObjectId) {
+        return await this.applicationModel.deleteOne({
+            user_id: user._id,
+            job_offer_id: job_offer_id
+        })
+    }
 }
