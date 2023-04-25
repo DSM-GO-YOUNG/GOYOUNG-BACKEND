@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { RegisterCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from 'src/user/schema/user.schema';
+import { ObjectId } from 'mongoose';
 
 @Controller('company')
 export class CompanyController {
@@ -23,8 +24,16 @@ export class CompanyController {
     
     @UseGuards(AuthGuard('jwt'))
     @Get('/')
-    async findAllCompany() {
+    async getAllCompany() {
         return await this.companyService.findAllCompany();
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/:company_id')
+    async getOneCompany(
+        @Param('company_id') company_id: ObjectId
+    ) {
+        return await this.companyService.findOneCompany(company_id);
     }
 
     @UseGuards(AuthGuard('jwt'))

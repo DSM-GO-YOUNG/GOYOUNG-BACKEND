@@ -1,8 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CompanyRepository } from './company.repository';
 import { RegisterCompanyDTO, CreateCompanyDTO } from './dto/company.dto';
 import { Company } from './schema/company.schema';
 import { User } from 'src/user/schema/user.schema';
+import { ObjectId } from 'mongoose';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class CompanyService {
@@ -19,10 +21,16 @@ export class CompanyService {
     }
 
     public async findAllCompany(): Promise<Company[]> {
-        return await this.companyRepository.findAllCompany();
+        return await this.companyRepository.getAllCompany();
     }
 
     public async searchCompany(search_word: string): Promise<Company[]> {
         return await this.companyRepository.searchCompany(search_word);
+    }
+
+    async findOneCompany(company_id: ObjectId): Promise<Company> {
+        const company =  await this.companyRepository.getCompanyById(company_id);
+        if(!company) throw new NotFoundException('Not Found This Company');
+        return company;
     }
 }

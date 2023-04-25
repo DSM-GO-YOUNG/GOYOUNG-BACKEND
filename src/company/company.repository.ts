@@ -16,11 +16,11 @@ export class CompanyRepository {
         return await newCompany.save();
     }
 
-    async findCompanyById(company_id: ObjectId): Promise<Company> {
+    async getCompanyById(company_id: ObjectId): Promise<Company> {
         return await this.companyModel.findById(company_id);
     }
 
-    async findAllCompany(): Promise<Company[]> {
+    async getAllCompany(): Promise<Company[]> {
         return await this.companyModel.find();
     }
 
