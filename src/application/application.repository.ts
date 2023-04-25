@@ -4,6 +4,7 @@ import { Application } from "./schema/application.schema";
 import { Model, ObjectId } from "mongoose";
 import { User } from "src/user/schema/user.schema";
 import { ApplicationCompanyDTO, ApplicationInfoDTO } from "./dto/application.dto";
+import { JobOffer } from "src/job-offer/schema/job-offer.schema";
 
 @Injectable()
 export class ApplicationRepository {
@@ -17,7 +18,7 @@ export class ApplicationRepository {
         return await newApplication.save();
     }
 
-    async findApplication(user: User, job_offer_id: ObjectId): Promise<Application> {
+    async getApplication(user: User, job_offer_id: ObjectId): Promise<Application> {
         return await this.applicationModel.findOne({ 
             user_id: user._id, 
             job_offer_id: job_offer_id 
@@ -29,5 +30,18 @@ export class ApplicationRepository {
             user_id: user._id,
             job_offer_id: job_offer_id
         })
+    }
+
+    async getApplicationByOffer(job_offer_id: ObjectId): Promise<Application[]> {
+        return await this.applicationModel.find(job_offer_id);
+    }
+
+    async getApplicationById(application_id: ObjectId): Promise<Application> {
+        return await this.applicationModel.findById(application_id);
+    }
+
+    public async acceptApplication(application_id: ObjectId, result: string): Promise<Application> {
+        await this.applicationModel.findByIdAndUpdate(application_id, { result });
+        return this.applicationModel.findById(application_id);
     }
 }
