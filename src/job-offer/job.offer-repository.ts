@@ -26,7 +26,15 @@ export class JobOfferRepository {
         return await this.jobOfferModel.deleteOne({ _id: job_offer_id });
     }
 
-    async findJobOfferById(job_offer_id: ObjectId): Promise<JobOffer> {
+    async getJobOfferById(job_offer_id: ObjectId): Promise<JobOffer> {
         return await this.jobOfferModel.findById(job_offer_id);
+    }
+
+    async getAllJobOffer(): Promise<JobOffer[]> {
+        return await this.jobOfferModel.find();
+    }
+
+    async getJobOfferByCompany(company_id: ObjectId): Promise<JobOffer[]> {
+        return await this.jobOfferModel.find({ company_id });
     }
 }

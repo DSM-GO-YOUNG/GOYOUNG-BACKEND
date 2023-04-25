@@ -16,7 +16,7 @@ export class JobOfferService {
     public async createJobOffer(reqJobOfferDto: ReqJobOfferDTO, user: User, company_id: ObjectId): Promise<JobOffer> {
         const company = await this.companyRepository.findCompanyById(company_id);
 
-        if(company.user_id !== user._id) throw new ForbiddenException('Not Host of the Company');
+        if(String(company.user_id) !== String(user._id)) throw new ForbiddenException('Not Host of the Company');
 
         const JobOfferInfoDto: JobOfferInfoDTO = { ...reqJobOfferDto, user_id: user._id, company_id };
 
@@ -24,18 +24,32 @@ export class JobOfferService {
     }
 
     public async updateJobOffer(reqJobOfferDto: ReqJobOfferDTO, job_offer_id: ObjectId, user: User): Promise<JobOffer> {
-        const jobOffer = await this.jobOfferRepository.findJobOfferById(job_offer_id);
+        const jobOffer = await this.jobOfferRepository.getJobOfferById(job_offer_id);
 
         if(!jobOffer) throw new NotFoundException('Not Found Job Offer');
         else if(String(jobOffer.user_id) === String(user._id)) return await this.jobOfferRepository.updateJobOffer(reqJobOfferDto, job_offer_id);
-        else throw ForbiddenException;
+        else throw new ForbiddenException;
     }
 
     public async deleteJobOffer(job_offer_id: ObjectId, user: User) {
-        const jobOffer = await this.jobOfferRepository.findJobOfferById(job_offer_id);
+        const jobOffer = await this.jobOfferRepository.getJobOfferById(job_offer_id);
     
         if(!jobOffer) throw new NotFoundException('Not Found Job Offer');
         else if(String(jobOffer.user_id) === String(user._id)) return this.jobOfferRepository.deleteJobOffer(job_offer_id);
-        else throw ForbiddenException;
+        else throw new ForbiddenException;
+    }
+
+    public async getJobOffer(job_offer_id: ObjectId): Promise<JobOffer> {
+        const jobOffer =  await this.jobOfferRepository.getJobOfferById(job_offer_id);
+        if(!jobOffer) throw new NotFoundException('Not Found Job Offer');
+        return jobOffer;
+    }
+
+    public async getAllJobOffer(): Promise<JobOffer[]> {
+        return await this.jobOfferRepository.getAllJobOffer();
+    }
+
+    public async getJobOfferByCompany(company_id: ObjectId): Promise<JobOffer[]> {
+        return await this.jobOfferRepository.getJobOfferByCompany(company_id);
     }
 }
