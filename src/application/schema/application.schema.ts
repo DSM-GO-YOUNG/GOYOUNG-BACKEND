@@ -15,6 +15,9 @@ export class Application {
 
     @Prop({ required: true })
     content: string;
+
+    @Prop({ required: true, enum: ['accept', 'fail', 'ongoing'], default: 'ongoing' })
+    result: string;
 }
 
 export const applicationSchema = SchemaFactory.createForClass(Application);
