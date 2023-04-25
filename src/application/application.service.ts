@@ -39,4 +39,8 @@ export class ApplicationService {
             return await this.applicationRepository.acceptApplication(application_id, result);
         } else throw new ForbiddenException;
     }
+
+    public async getApplicationById(application_id: ObjectId): Promise<Application> {
+        return await this.applicationRepository.getApplicationById(application_id);
+    }
 }

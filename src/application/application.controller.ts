@@ -49,4 +49,12 @@ export class ApplicationController {
     return this.applicationService.acceptApplication(req.user as User, application_id, result);
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/:job_offer_id/application/:application_id/admin')
+  async getApplicationById(
+    @Param('application_id') application_id: ObjectId,
+  ) {
+    return this.applicationService.getApplicationById(application_id);
+  }
+
 }
