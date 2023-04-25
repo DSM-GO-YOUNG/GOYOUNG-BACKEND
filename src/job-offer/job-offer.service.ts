@@ -14,7 +14,7 @@ export class JobOfferService {
     ) {}
 
     public async createJobOffer(reqJobOfferDto: ReqJobOfferDTO, user: User, company_id: ObjectId): Promise<JobOffer> {
-        const company = await this.companyRepository.findCompanyById(company_id);
+        const company = await this.companyRepository.getCompanyById(company_id);
 
         if(String(company.user_id) !== String(user._id)) throw new ForbiddenException('Not Host of the Company');
 
