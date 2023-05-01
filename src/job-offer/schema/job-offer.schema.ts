@@ -38,4 +38,4 @@ export class JobOffer {
     prefer: string;
 }
 
-export const JobOfferSchema = SchemaFactory.createForClass(JobOffer);
+export const jobOfferSchema = SchemaFactory.createForClass(JobOffer);
