@@ -1,14 +1,16 @@
-import { BadRequestException, ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ApplicationRepository } from './application.repository';
 import { User } from 'src/user/schema/user.schema';
 import { ObjectId } from 'mongoose';
 import { Application } from './schema/application.schema';
 import { ApplicationCompanyDTO } from './dto/application.dto';
+import { JobOfferRepository } from 'src/job-offer/job.offer-repository';
 
 @Injectable()
 export class ApplicationService {
     constructor(
-        private readonly applicationRepository: ApplicationRepository
+        private readonly applicationRepository: ApplicationRepository,
+        private readonly jobOfferRepository: JobOfferRepository
     ) {}
 
     public async applyCompany(user: User, job_offer_id: ObjectId, content: string): Promise<Application> {
@@ -24,7 +26,6 @@ export class ApplicationService {
         if(!application) throw new BadRequestException('Not apply to this Company');
 
         if(String(application.user_id) === String(user._id)) return await this.applicationRepository.cancelApplyCompany(user, job_offer_id);
-        else throw new ForbiddenException();
     }
 
     public async getApplicationByOffer(job_offer_id: ObjectId): Promise<Application[]> {
@@ -32,15 +33,20 @@ export class ApplicationService {
     }
 
     public async acceptApplication(user: User, application_id: ObjectId, result: string): Promise<Application> {
-        const application = await this.applicationRepository.getApplicationById(application_id);
-        if(!application) throw new BadRequestException('Not apply to this Company');
+        const jobOffer = await this.applicationRepository.getApplicationById(application_id);
+        if(!jobOffer) throw new NotFoundException('Not Found this Application');
         
-        if(String(application.user_id) === String(user._id)) {
+        const offerHost = await this.jobOfferRepository.getJobOfferById(Object(jobOffer.job_offer_id.user_id));
+        
+        if(String(offerHost.user_id) === String(user._id)) {
             return await this.applicationRepository.acceptApplication(application_id, result);
         } else throw new ForbiddenException;
     }
 
     public async getApplicationById(application_id: ObjectId): Promise<Application> {
-        return await this.applicationRepository.getApplicationById(application_id);
+        const jobOffer = await this.applicationRepository.getApplicationById(application_id);
+        if(!jobOffer) throw new NotFoundException('Not Found this Application');
+
+        return jobOffer;
     }
 }

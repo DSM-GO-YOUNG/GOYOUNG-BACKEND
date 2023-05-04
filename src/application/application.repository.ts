@@ -33,7 +33,7 @@ export class ApplicationRepository {
     }
 
     async getApplicationByOffer(job_offer_id: ObjectId): Promise<Application[]> {
-        return await this.applicationModel.find(job_offer_id);
+        return await this.applicationModel.find({ job_offer_id });
     }
 
     async getApplicationById(application_id: ObjectId): Promise<Application> {

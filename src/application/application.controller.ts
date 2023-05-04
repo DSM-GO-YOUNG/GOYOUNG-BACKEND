@@ -40,7 +40,7 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('/:job_offer_id/application/:application_id/admin')
+  @Post('/application/:application_id/admin')
   async acceptApplication(
     @Req() req: Request,
     @Body('result') result: string,
@@ -50,7 +50,7 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('/:job_offer_id/application/:application_id/admin')
+  @Get('/application/:application_id/admin')
   async getApplicationById(
     @Param('application_id') application_id: ObjectId,
   ) {
