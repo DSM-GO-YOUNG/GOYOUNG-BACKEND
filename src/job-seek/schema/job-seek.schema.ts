@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { ObjectId } from "mongoose";
+import { Company } from "src/company/schema/company.schema";
 import { User } from "src/user/schema/user.schema";
 
 @Schema({ timestamps: true })
@@ -17,6 +18,9 @@ export class JobSeek {
 
     @Prop({ required: true })
     address: string;
+
+    @Prop({ required: true })
+    company_id: Company;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
     user_id: User;
