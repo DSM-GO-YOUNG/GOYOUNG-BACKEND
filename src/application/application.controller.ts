@@ -41,12 +41,12 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('/application/:application_id/admin')
-  async acceptApplication(
+  async answerApplication(
     @Req() req: Request,
     @Body('result') result: string,
     @Param('application_id') application_id: ObjectId,
   ) {
-    return this.applicationService.acceptApplication(req.user as User, application_id, result);
+    return this.applicationService.answerApplication(req.user as User, application_id, result);
   }
 
   @UseGuards(AuthGuard('jwt'))

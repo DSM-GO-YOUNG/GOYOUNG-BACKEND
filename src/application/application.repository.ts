@@ -40,7 +40,7 @@ export class ApplicationRepository {
         return await this.applicationModel.findById(application_id);
     }
 
-    public async acceptApplication(application_id: ObjectId, result: string): Promise<Application> {
+    public async answerApplication(application_id: ObjectId, result: string): Promise<Application> {
         await this.applicationModel.findByIdAndUpdate(application_id, { result });
         return this.applicationModel.findById(application_id);
     }

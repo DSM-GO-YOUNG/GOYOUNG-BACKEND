@@ -32,14 +32,14 @@ export class ApplicationService {
         return await this.applicationRepository.getApplicationByOffer(job_offer_id);
     }
 
-    public async acceptApplication(user: User, application_id: ObjectId, result: string): Promise<Application> {
+    public async answerApplication(user: User, application_id: ObjectId, result: string): Promise<Application> {
         const jobOffer = await this.applicationRepository.getApplicationById(application_id);
         if(!jobOffer) throw new NotFoundException('Not Found this Application');
         
         const offerHost = await this.jobOfferRepository.getJobOfferById(Object(jobOffer.job_offer_id.user_id));
         
         if(String(offerHost.user_id) === String(user._id)) {
-            return await this.applicationRepository.acceptApplication(application_id, result);
+            return await this.applicationRepository.answerApplication(application_id, result);
         } else throw new ForbiddenException;
     }
 
