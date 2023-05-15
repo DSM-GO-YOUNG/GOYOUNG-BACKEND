@@ -3,6 +3,7 @@ import { JobSeekService } from './job-seek.service';
 import { JobSeekController } from './job-seek.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JobSeek, JobSeekSchema } from './schema/job-seek.schema';
+import { JobSeekRepository } from './job-seek.repository';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { JobSeek, JobSeekSchema } from './schema/job-seek.schema';
     ])
   ],
   controllers: [JobSeekController],
-  providers: [JobSeekService]
+  providers: [JobSeekService, JobSeekRepository]
 })
 export class JobSeekModule {}
