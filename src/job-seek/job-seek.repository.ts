@@ -16,6 +16,10 @@ export class JobSeekRepository {
         return newJobSeek.save();
     }
 
+    async deleteJobSeek(job_seek_id: ObjectId) {
+        return await this.jobSeekModel.deleteOne({ _id: job_seek_id });
+    }
+
     async findOneJobSeek(job_seek_id: ObjectId): Promise<JobSeek> {
         return this.jobSeekModel.findById(job_seek_id);
     }

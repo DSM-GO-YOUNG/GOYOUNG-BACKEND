@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { JobSeekService } from './job-seek.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ReqJobSeekDTO } from './dto/job-seek.dto';
@@ -18,5 +18,14 @@ export class JobSeekController {
     @Query('company') company: ObjectId
   ) {
     return await this.jobSeekService.createJobSeek(reqJobSeekDto, req.user as User, company)
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('/:job_seek_id')
+  async deleteJobSeek(
+    @Req() req: Request,
+    @Param('job_seek_id') job_seek_id: ObjectId
+  ) {
+    return await this.jobSeekService.deleteJobSeek(job_seek_id, req.user as User);
   }
 }
