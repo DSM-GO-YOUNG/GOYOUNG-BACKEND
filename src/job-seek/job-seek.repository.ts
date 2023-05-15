@@ -27,4 +27,9 @@ export class JobSeekRepository {
     async findAllJobSeek(job_seek_id: ObjectId): Promise<JobSeek[]> {
         return this.jobSeekModel.find();
     }
+
+    public async answerJobSeek(job_seek_id: ObjectId, result: string): Promise<JobSeek> {
+        await this.jobSeekModel.findByIdAndUpdate(job_seek_id, { result });
+        return await this.jobSeekModel.findById(job_seek_id);
+    }
 }

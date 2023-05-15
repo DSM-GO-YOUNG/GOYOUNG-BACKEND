@@ -38,4 +38,14 @@ export class JobSeekController {
     await this.jobSeekService.findOneJobSeek(job_seek_id);
     return { statusCode: 200, message: 'Success Delete JobSeek' };
   }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/:job_seek_id/result')
+  async answerJobSeek(
+    @Body('result') result: string,
+    @Req() req: Request,
+    @Param('job_seek_id') job_seek_id: ObjectId
+  ) {
+    return await this.jobSeekService.answerJobSeek(job_seek_id, result, req.user as User);
+  }
 }

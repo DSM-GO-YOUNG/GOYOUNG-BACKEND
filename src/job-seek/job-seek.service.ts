@@ -33,4 +33,11 @@ export class JobSeekService {
         
         return jobSeek;
     }
+
+    public async answerJobSeek(job_seek_id: ObjectId, result: string, user: User): Promise<JobSeek> {
+        const jobSeek = await this.jobSeekRepository.findOneJobSeek(job_seek_id);
+
+        if(jobSeek.target_id === user._id) return await this.jobSeekRepository.answerJobSeek(job_seek_id, result);
+        else throw new ForbiddenException();
+    }
 }
