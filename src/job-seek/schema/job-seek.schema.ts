@@ -19,8 +19,11 @@ export class JobSeek {
     @Prop({ required: true })
     address: string;
 
+    @Prop({ required: true, enum: ['accept', 'fail', 'ongoing'], default: 'ongoing' })
+    result: string;
+
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
-    target_id: User;
+    target_id: ObjectId;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: Company.name })
     company_id: Company;
