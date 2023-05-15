@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { JobSeekService } from './job-seek.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ReqJobSeekDTO } from './dto/job-seek.dto';
@@ -26,6 +26,16 @@ export class JobSeekController {
     @Req() req: Request,
     @Param('job_seek_id') job_seek_id: ObjectId
   ) {
-    return await this.jobSeekService.deleteJobSeek(job_seek_id, req.user as User);
+    await this.jobSeekService.deleteJobSeek(job_seek_id, req.user as User);
+    return { statusCode: 200, message: 'Success Update JobSeek' };
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/:job_seek_id')
+  async findOneJobSeek(
+    @Param('job_seek_id') job_seek_id: ObjectId
+  ) {
+    await this.jobSeekService.findOneJobSeek(job_seek_id);
+    return { statusCode: 200, message: 'Success Delete JobSeek' };
   }
 }

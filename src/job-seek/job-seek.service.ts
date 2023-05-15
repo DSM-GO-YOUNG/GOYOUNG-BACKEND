@@ -23,6 +23,14 @@ export class JobSeekService {
         if(!jobSeek) throw new NotFoundException('Not Found JobSeek');
 
         if(jobSeek.user_id === user) return await this.jobSeekRepository.deleteJobSeek(job_seek_id);
-        else throw new ForbiddenException()
+        else throw new ForbiddenException();
+    }
+
+    public async findOneJobSeek(job_seek_id: ObjectId): Promise<JobSeek> {
+        const jobSeek = await this.jobSeekRepository.findOneJobSeek(job_seek_id);
+
+        if(!jobSeek) throw new NotFoundException('Not Found JobSeek');
+        
+        return jobSeek;
     }
 }
