@@ -15,6 +15,9 @@ export class JobSeekInfoDTO {
     address: string;
 
     @IsString()
+    target_id: ObjectId;
+
+    @IsString()
     company_id: ObjectId;
 
     @IsString()
@@ -33,4 +36,7 @@ export class ReqJobSeekDTO {
 
     @IsString()
     address: string;
+
+    @IsString()
+    target_id: ObjectId;
 }
