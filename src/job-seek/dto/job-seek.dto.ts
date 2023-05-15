@@ -20,3 +20,17 @@ export class JobSeekInfoDTO {
     @IsString()
     user_id: ObjectId;
 }
+
+export class ReqJobSeekDTO {
+    @IsString()
+    title: string;
+
+    @IsString()
+    content: string;
+
+    @IsString()
+    job: string;
+
+    @IsString()
+    address: string;
+}
