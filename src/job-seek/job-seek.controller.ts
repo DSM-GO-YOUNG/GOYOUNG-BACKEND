@@ -27,7 +27,7 @@ export class JobSeekController {
     @Param('job_seek_id') job_seek_id: ObjectId
   ) {
     await this.jobSeekService.deleteJobSeek(job_seek_id, req.user as User);
-    return { statusCode: 200, message: 'Success Update JobSeek' };
+    return { statusCode: 200, message: 'Success Delete JobSeek' };
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -35,8 +35,7 @@ export class JobSeekController {
   async findOneJobSeek(
     @Param('job_seek_id') job_seek_id: ObjectId
   ) {
-    await this.jobSeekService.findOneJobSeek(job_seek_id);
-    return { statusCode: 200, message: 'Success Delete JobSeek' };
+    return await this.jobSeekService.findOneJobSeek(job_seek_id);
   }
 
   @UseGuards(AuthGuard('jwt'))
