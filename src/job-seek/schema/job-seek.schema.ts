@@ -19,7 +19,7 @@ export class JobSeek {
     @Prop({ required: true })
     address: string;
 
-    @Prop({ required: true })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: Company.name })
     company_id: Company;
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: User.name })
