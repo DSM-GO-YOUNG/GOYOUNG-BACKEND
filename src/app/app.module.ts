@@ -9,9 +9,15 @@ import { JobSeekModule } from 'src/job-seek/job-seek.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from 'src/shared/exception/exception.filter';
 import { ApplicationModule } from 'src/application/application.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'uploads'),
+      serveRoot: '/public'
+    }),
     MongooseModule.forRoot(process.env.DB_URL),
     AuthModule,
     UserModule,
