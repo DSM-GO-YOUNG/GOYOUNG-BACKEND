@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsString, isString } from "class-validator";
 import { ObjectId } from "mongoose";
 
 export class CreateCompanyDTO {
@@ -27,6 +27,9 @@ export class RegisterCompanyDTO {
 
     @IsString()
     address: string;
+
+    @IsString()
+    image: string;
 
     @IsString()
     user_id: ObjectId;    
