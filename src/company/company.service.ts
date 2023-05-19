@@ -4,7 +4,7 @@ import { RegisterCompanyDTO, CreateCompanyDTO } from './dto/company.dto';
 import { Company } from './schema/company.schema';
 import { User } from 'src/user/schema/user.schema';
 import { ObjectId } from 'mongoose';
-import { NotFoundError } from 'rxjs';
+import { createImageURL } from 'src/shared/multerOptions';
 
 @Injectable()
 export class CompanyService {
@@ -12,10 +12,11 @@ export class CompanyService {
         private readonly companyRepository: CompanyRepository
     ) {}
 
-    public async registerCompany(createCompanyDto: CreateCompanyDTO, user: User): Promise<Company> {
+    public async registerCompany(createCompanyDto: CreateCompanyDTO, image: string, user: User): Promise<Company> {
         if(user.host == false) throw new ForbiddenException('Not Host');
         
-        const registerCompanyDto: RegisterCompanyDTO = { ...createCompanyDto, user_id: user._id };
+        const imageURL = createImageURL(image);
+        const registerCompanyDto: RegisterCompanyDTO = { ...createCompanyDto, image: imageURL, user_id: user._id };
         
         return await this.companyRepository.registerCompany(registerCompanyDto);
     }

@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { RegisterCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from 'src/user/schema/user.schema';
 import { ObjectId } from 'mongoose';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('company')
 export class CompanyController {
@@ -14,11 +15,13 @@ export class CompanyController {
 
     @UseGuards(AuthGuard('jwt'))
     @Post('/')
+    @UseInterceptors(FileInterceptor('image'))
     async registerCompany(
         @Body() registerCompanyDto: RegisterCompanyDTO,
         @Req() req: Request,
+        @UploadedFile() image: Express.Multer.File,
     ) {
-        await this.companyService.registerCompany(registerCompanyDto, req.user as User);
+        await this.companyService.registerCompany(registerCompanyDto, image.originalname, req.user as User);
         return { statusCode: 201, message: 'Success Register Company'}
     }
     
