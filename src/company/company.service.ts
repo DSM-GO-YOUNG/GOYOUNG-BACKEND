@@ -21,7 +21,7 @@ export class CompanyService {
         return await this.companyRepository.registerCompany(registerCompanyDto);
     }
 
-    public async findAllCompany(): Promise<Company[]> {
+    public async getAllCompany(): Promise<Company[]> {
         return await this.companyRepository.getAllCompany();
     }
 
@@ -29,9 +29,15 @@ export class CompanyService {
         return await this.companyRepository.searchCompany(search_word);
     }
 
-    async findOneCompany(company_id: ObjectId): Promise<Company> {
+    async getOneCompany(company_id: ObjectId): Promise<Company> {
         const company =  await this.companyRepository.getCompanyById(company_id);
         if(!company) throw new NotFoundException('Not Found This Company');
+        return company;
+    }
+
+    async getMyCompany(user: User): Promise<Company> {
+        const company = await this.companyRepository.getMyCompany(user._id);
+        if(!company) throw new NotFoundException('Not Found Your Company');
         return company;
     }
 }

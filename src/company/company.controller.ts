@@ -28,15 +28,15 @@ export class CompanyController {
     @UseGuards(AuthGuard('jwt'))
     @Get('/')
     async getAllCompany() {
-        return await this.companyService.findAllCompany();
+        return await this.companyService.getAllCompany();
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Get('/:company_id')
-    async getOneCompany(
-        @Param('company_id') company_id: ObjectId
+    @Get('/my')
+    async getMyCompany(
+        @Req() req: Request
     ) {
-        return await this.companyService.findOneCompany(company_id);
+        return await this.companyService.getMyCompany(req.user as User);
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -45,5 +45,13 @@ export class CompanyController {
         @Query('word') search_word: string
     ) {
         return await this.companyService.searchCompany(search_word);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/:company_id')
+    async getOneCompany(
+        @Param('company_id') company_id: ObjectId
+    ) {
+        return await this.companyService.getOneCompany(company_id);
     }
 }

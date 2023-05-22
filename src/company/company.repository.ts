@@ -27,4 +27,8 @@ export class CompanyRepository {
     async searchCompany(search_word: string): Promise<Company[]> {
         return await this.companyModel.find({ name: { $regex: `.*${search_word}.*`, $options: 'i' } });
     }
+
+    async getMyCompany(user_id: ObjectId): Promise<Company> {
+        return await this.companyModel.findOne({ user_id });
+    }
 }
