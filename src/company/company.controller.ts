@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CompanyService } from './company.service';
-import { RegisterCompanyDTO } from './dto/company.dto';
+import { RegisterCompanyDTO, ReqCompanyDTO, updateCompanyDTO } from './dto/company.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
 import { User } from 'src/user/schema/user.schema';
@@ -22,7 +22,7 @@ export class CompanyController {
         @UploadedFile() image: Express.Multer.File,
     ) {
         await this.companyService.registerCompany(registerCompanyDto, image.originalname, req.user as User);
-        return { statusCode: 201, message: 'Success Register Company'}
+        return { statusCode: 201, message: 'Success Register Company' };
     }
     
     @UseGuards(AuthGuard('jwt'))
@@ -53,5 +53,17 @@ export class CompanyController {
         @Param('company_id') company_id: ObjectId
     ) {
         return await this.companyService.getOneCompany(company_id);
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Patch('/:company_id')
+    @UseInterceptors(FileInterceptor('image'))
+    async updateCompany(
+        @Body() reqCompanyDto: ReqCompanyDTO,
+        @UploadedFile() image: Express.Multer.File,
+        @Req() req: Request,
+        @Param('company_id') company_id: ObjectId
+    ) {
+        return await this.companyService.updateCompany(reqCompanyDto, image.originalname,company_id, req.user as User);
     }
 }
