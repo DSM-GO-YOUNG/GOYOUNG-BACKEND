@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDTO, LoginUserDTO, UserResDTO } from './dto/user.dto';
 import { ObjectId } from 'mongoose';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('user')
 export class UserController {
@@ -10,10 +11,12 @@ export class UserController {
     ) {}
 
     @Post('/')
+    @UseInterceptors(FileInterceptor('image'))
     async signUp(
-        @Body() createUserDto: CreateUserDTO
+        @Body() createUserDto: CreateUserDTO,
+        @UploadedFile() image: Express.Multer.File
     ) {
-        await this.userService.signUp(createUserDto);
+        await this.userService.signUp(createUserDto, image.originalname);
         return { statusCode: 201, message: 'Success Sign up' };
     }
 

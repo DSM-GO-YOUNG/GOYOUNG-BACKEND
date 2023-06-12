@@ -15,6 +15,23 @@ export class CreateUserDTO {
     phone: string;
 }
 
+export class UserInfoDTO {
+    @IsString()
+    name: string;
+
+    @IsBoolean()
+    host: boolean;
+
+    @IsString()
+    password: string;
+
+    @IsString()
+    phone: string;
+
+    @IsString()
+    image: string;
+}
+
 export class LoginUserDTO {
     @IsString()
     phone: string;
