@@ -14,7 +14,7 @@ import { multerOptionsFactory } from 'src/shared/multerOptions';
         ]),
         MulterModule.registerAsync({
             useFactory: multerOptionsFactory
-          })
+        })
     ],
     controllers: [UserController],
     providers: [UserService, UserRepository]
