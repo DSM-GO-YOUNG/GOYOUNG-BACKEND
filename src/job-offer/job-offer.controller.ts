@@ -43,6 +43,14 @@ export class JobOfferController {
     }
 
     @UseGuards(AuthGuard('jwt'))
+    @Get('/my')
+    async getMyJobOffer(
+      @Req() req: Request
+    ) {
+      return await this.jobOfferService.getMyJobOffer(req.user as User);
+    }
+    
+    @UseGuards(AuthGuard('jwt'))
     @Get('/:job_offer_id')
     async getJobOffer(
       @Param('job_offer_id') job_offer_id: ObjectId,
@@ -63,4 +71,5 @@ export class JobOfferController {
     ) {
       return await this.jobOfferService.getJobOfferByCompany(company_id);
     }
+
 }

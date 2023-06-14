@@ -36,4 +36,9 @@ export class JobOfferRepository {
     async getJobOfferByCompany(company_id: ObjectId): Promise<JobOffer[]> {
         return await this.jobOfferModel.find({ company_id });
     }
+
+    async getMyJobOffer(user_id: ObjectId): Promise<JobOffer[]> {
+        return await this.jobOfferModel.find({ user_id });
+
+    }
 }

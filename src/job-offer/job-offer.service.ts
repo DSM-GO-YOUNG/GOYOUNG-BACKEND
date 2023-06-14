@@ -52,4 +52,8 @@ export class JobOfferService {
     public async getJobOfferByCompany(company_id: ObjectId): Promise<JobOffer[]> {
         return await this.jobOfferRepository.getJobOfferByCompany(company_id);
     }
+
+    public async getMyJobOffer(user: User): Promise<JobOffer[]> {
+        return await this.jobOfferRepository.getMyJobOffer(user._id);
+    }
 }
